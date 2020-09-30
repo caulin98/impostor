@@ -1,2 +1,2 @@
 # impostor
-Trabjo de la la asignatura de procesos
+Trabajo de la la asignatura de procesos
