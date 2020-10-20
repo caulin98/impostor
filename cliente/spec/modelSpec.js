@@ -59,5 +59,62 @@ describe("El juego del impostor", function () {
       usr.iniciarPartida();
       expect(juego.partidas[codigo].fase.nombre).toEqual("jugando");
     })
+
+    it("Pepe abandona la partida ya empezada", function () {
+      juego.unirAPartida(codigo, "ana");
+      var num = Object.keys(juego.partidas[codigo].usuarios).length;
+      expect(num).toEqual(2);
+      expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
+      juego.unirAPartida(codigo, "isa");
+      var num = Object.keys(juego.partidas[codigo].usuarios).length;
+      expect(num).toEqual(3);
+      expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
+      juego.unirAPartida(codigo, "tomas");
+      var num = Object.keys(juego.partidas[codigo].usuarios).length;
+      expect(num).toEqual(4);
+      expect(juego.partidas[codigo].fase.nombre).toEqual("completado");
+      usr.iniciarPartida();
+      expect(juego.partidas[codigo].fase.nombre).toEqual("jugando");
+      usr.abandonarPartida();
+      expect(juego.partidas[codigo].fase.nombre).toEqual("jugando");
+    });
+
+      it("Pepe abandona la partida sin empezar", function () {
+        juego.unirAPartida(codigo, "ana");
+        var num = Object.keys(juego.partidas[codigo].usuarios).length;
+        expect(num).toEqual(2);
+        expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
+        juego.unirAPartida(codigo, "isa");
+        var num = Object.keys(juego.partidas[codigo].usuarios).length;
+        expect(num).toEqual(3);
+        expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
+        juego.unirAPartida(codigo, "tomas");
+        var num = Object.keys(juego.partidas[codigo].usuarios).length;
+        expect(num).toEqual(4);
+        expect(juego.partidas[codigo].fase.nombre).toEqual("completado");
+        usr.abandonarPartida();
+        expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
+      })
+    })
+
+
+    describe("el usr Pepe crea una partida de pocos jugadores", function () {
+      var codigo;
+      beforeEach(function () {
+        codigo = usr.crearPartida(3);
+      });
+      it("se comprueba la partida", function () {
+        expect(codigo).toBe("fallo");
+      });
+      })
+
+      describe("el usr Pepe crea una partida de muchos jugadores", function () {
+        var codigo;
+        beforeEach(function () {
+          codigo = usr.crearPartida(11);
+        });
+        it("se comprueba la partida", function () {
+          expect(codigo).toBe("fallo");
+        });
+        })
   });
-})
