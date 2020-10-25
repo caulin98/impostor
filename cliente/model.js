@@ -164,12 +164,13 @@ function Partida(num, owner, codigo) {
         let max=0
         let usrVotado=undefined
         for (var key in this.usuarios) {
-        if (max<this.usuarios[key].votos){
+        if (this.usuarios[key].votos>max){
             max=this.usuarios[key].votos;
             usrVotado=this.usuarios[key]
         }
+    }
         return usrVotado;
-        }
+        
     }
 
     this.numeroSkip=function(){
@@ -184,8 +185,12 @@ function Partida(num, owner, codigo) {
 
     this.elegido=function(){
         let masVotado=this.masVotado();
-        if (masVotado.votos>this.numeroSkip())
-            masVotado.esAtacado();
+        if (masVotado!=undefined){
+
+         if(masVotado.votos>this.numeroSkip()){
+                masVotado.esAtacado();
+         }
+            }     
     }
 
     this.votar=function(sospechoso){
@@ -199,6 +204,14 @@ function Partida(num, owner, codigo) {
 
     this.finPartida=function(){
         this.fase=new Final;
+    }
+
+    this.lanzarVotacion=function(){
+        this.fase.lanzarVotacion(this);
+    }
+
+    this.puedeLanzarVotacion=function(){
+        this.fase=new Votacion();
     }
 
     this.agregarUsuario(owner);
@@ -219,9 +232,11 @@ function Inicial() {
 
     this.abandonarPartida = function (nick, partida) {
         partida.puedeAbandonarPartida(nick);
-        
         //comprobar si no hay usuarios
     }
+
+    this.atacar=function(usuario){}
+    this.lanzarVotacion=function(){}
 }
 
 function Completado() {
@@ -249,7 +264,9 @@ function Completado() {
         }
         
     }
+
     this.atacar=function(usuario){}
+    this.lanzarVotacion=function(){}
 }
 
 function Jugando() {
@@ -266,6 +283,10 @@ function Jugando() {
     this.atacar=function(usuario,partida){
         partida.puedeAtacar(usuario)
     }
+
+    this.lanzarVotacion=function(partida){
+		partida.puedeLanzarVotacion();
+	}
 }
 
 function Final() {
@@ -283,6 +304,16 @@ function Final() {
         }
     }
     this.atacar=function(usuario,partida){}
+    this.lanzarVotacion=function(){}
+}
+
+function Votacion(){
+	this.nombre="votacion";
+		this.agregarUsuario=function(nick,partida){}
+		this.iniciarPartida=function(partida){}
+		this.abandonarpartida=function(nick,partida){}
+		this.atacar=function(inocente){};
+		this.lanzarVotacion=function(){}
 }
 
 function Usuario(nick, juego) {
@@ -315,10 +346,11 @@ function Usuario(nick, juego) {
         this.estado.esAtacado(this);
     }
 
-    this.skip=function(){
+    this.votarSkip=function(){
         this.skip=true
     }
     this.votar=function(usuario){
+        this.heVotado="true"
         this.partida.votar(usuario)
     }
     this.esVotado=function(){
@@ -360,9 +392,9 @@ function inicio(){
     var usr=new Usuario("rafa");
     var codigo=juego.crearPartida(4,usr);
     if (codigo!="fallo"){
-        juego.unirAPartida(codigo,"luis");
-        juego.unirAPartida(codigo,"luis");
-        juego.unirAPartida(codigo,"luis");
+        juego.unirAPartida(codigo,"rafa");
+        juego.unirAPartida(codigo,"rafa");
+        juego.unirAPartida(codigo,"rafa");
         usr.iniciarPartida();
     }
 }
