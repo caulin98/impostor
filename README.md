@@ -1,2 +1,2 @@
-# Impostor
-Trabajo de la la asignatura de procesos
+# PruebasImpostor
+Realizo las pruebas del trabajo

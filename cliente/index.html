@@ -1,13 +1,60 @@
 <html>
 <head>
 	<title>IMPOSTOR</title>
-	<script src="model.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="cliente/lib/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="cliente/lib/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+	<script src="cliente/src/clienteRest.js"></script>
+	<script src="cliente/src/clienteWS.js"></script>
+	<script src="cliente/src/controlWeb.js"></script>
 </head>
 <body>
-Punto de enntrada 
+
+<div class="container">
+	<style>
+		.jumbotron {
+		  background-color: #ff0404; 
+		  color: #ffffff;
+		}
+		</style>
+		
+		<body>
+		  <div class="jumbotron text-center">
+			<h1>IMPOSTOR</h1>
+			<p>Proyecto de Rafael Caulin Lopez</p>
+		  </div>
+		</body>
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<div id="mostraNick">	</div>
+		</div>
+		<div class="col-sm-3"></div>
+	</div>
+	<hr noshade="noshade" />
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-4">
+			<div id="crearPartida">	</div>
+			<div id="esperando">	</div>
+		</div>
+		<div class="col-sm-4">
+			<div id="unirAPartida">	</div>
+			<div id="listaJugadores">	</div>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	<div id="iniciarPartida">	</div>
+</div>
 <script>
-	var juego;
-	inicio();
+	var rest=new ClienteRest();
+	var ws=new ClienteWS();
+	var cw=new ControlWeb($);
+	cw.mostrarNick();
+	cw.mostrarCrearPartida();
+	ws.listaPartidasDisponibles();
 </script>
 </body>
 </html>
